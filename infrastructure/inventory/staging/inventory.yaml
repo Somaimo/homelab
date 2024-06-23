@@ -1,0 +1,37 @@
+all:
+  hosts:
+    cluster-control-01:
+      ansible_host: cluster-control-01.soultree.lan
+    cluster-control-02:
+      ansible_host: cluster-control-02.soultree.lan
+    cluster-control-03:
+      ansible_host: cluster-control-03.soultree.lan
+    cluster-worker-01:
+      ansible_host: cluster-worker-01.soultree.lan
+    cluster-worker-02: 
+      ansible_host: cluster-worker-02.soultree.lan
+    cluster-worker-03:
+      ansible_host: cluster-worker-03.soultree.lan
+  vars:
+    domain_name: ho.dahu.day
+    ansible_user: ansible
+    ansible_ssh_private_key_file: ~/.ssh/ansible
+
+k8s_workers:
+  hosts:
+    cluster-worker-01:
+    cluster-worker-02:
+    cluster-worker-03:
+k8s_controllers:
+  hosts:
+    cluster-control-01:
+    cluster-control-02:
+    cluster-control-03:
+k8s_cluster:
+  children:
+    test_cluster_controllers:
+    test_cluster_workers:
+
+sec_log_servers:
+  hosts:
+    

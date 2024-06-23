@@ -1,0 +1,2 @@
+cluster/bootstrap/** merge=ours
+infrastructure/inventory/group_vars/all/git-repo.yml merge=ours
