@@ -1,0 +1,41 @@
+---
+ignore: |
+  .ansible/
+  .direnv/
+  .private/
+  .vscode/
+  *.sops.*
+
+extends: default
+
+rules:
+  truthy:
+    allowed-values: ["true", "false"]
+
+  comments:
+    min-spaces-from-content: 1
+
+  comments-indentation: false
+
+  line-length: disable
+
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+
+  brackets:
+    min-spaces-inside: 0
+    max-spaces-inside: 0
+
+  indentation:
+    indent-sequences: whatever
+    spaces: 2
+
+  hyphens:
+    max-spaces-after: 1
+
+  document-start: disable
+
+  octal-values:
+    forbid-explicit-octal: true
+    forbid-implicit-octal: true

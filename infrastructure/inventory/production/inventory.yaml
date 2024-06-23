@@ -1,0 +1,39 @@
+all:
+  hosts:
+    dnsy-01:
+      ansible_host: dnsy-01.soultree.lan
+    bastion:
+      ansible_host: bastion.soultree.lan
+    turing-n1:
+      ansible_host: turing-n1.soultree.lan
+    turing-n2:
+      ansible_host: turing-n2.soultree.lan
+    turing-n3:
+      ansible_host: turing-n3.soultree.lan
+    turing-n4:
+      ansible_host: turing-n4.soultree.lan
+  vars:
+    domain_name: ho.dahu.day
+    ansible_user: ansible
+    ansible_ssh_private_key_file: ~/.ssh/ansible
+
+k8s_controllers:
+  hosts:
+    turing-n1:
+    turing-n2:
+    turing-n3:
+k8s_workers:
+  hosts:
+    turing-n4:
+k8s_cluster:
+  children:
+    prd_cluster_controllers:
+    prd_cluster_workers:
+
+dns_servers:
+  hosts:
+    dnsy-01:
+
+sec_log_servers:
+  hosts:
+    loggy-01.soultree.lan
