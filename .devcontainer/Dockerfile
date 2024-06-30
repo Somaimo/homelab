@@ -25,7 +25,9 @@ USER vscode
 RUN python3 -m pipx ensurepath && sudo python3 -m pipx ensurepath && python3 -m pipx completions
 # Install ansible
 RUN pipx install --include-deps ansible
+RUN pipx install pdm
 
+RUN mkdir  ~/.ssh && echo "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIHxvwHvW/H1q0TKL43upNtFGzUof8nGTr737dKbecYNdAAAAD3NzaDptYWRxSG9tZUxhYg== marc@mantis-token2-halsband" | tee ~/.ssh/token2-halsband.pub
 # Set up direnv hook
 #RUN echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
 #RUN echo 'eval "$(direnv hook bash)"' >> ~/.bash_profile

@@ -18,10 +18,14 @@
 	// "forwardPorts": [],
 
 	// Configure tool-specific properties.
-	// "customizations": {},
+	"customizations": {
+		"vscode": {
+			"extensions": ["ms-azuretools.vscode-docker", "ms-python.vscode-pylance", "ms-python.python", "ms-python.debugpy", "4ops.terraform", "redhat.ansible"]
+		}
+	}
 
 	// Use postCreateCommand to correct permissions on workspace folder
-	"postCreateCommand": "chmod -R o-rwx /workspaces"
+	// "postCreateCommand": "chmod -R o-rwx /workspaces"
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
 }
