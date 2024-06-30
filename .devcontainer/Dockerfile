@@ -14,12 +14,15 @@ RUN apt-get update && export DEBIAN_FRONTEND=interactive \
     wget \
     unzip \
     terraform \
-    direnv \
-    && rm -rf /var/lib/apt/lists/*
+    direnv
 
 # Install Oy-My-Posh
 RUN curl -s https://ohmyposh.dev/install.sh | sudo bash -s
 RUN echo 'eval "$(oh-my-posh init bash)"' | tee -a /home/vscode/.bashrc
+
+# Install SOPS and age
+RUN curl -o /usr/local/bin/sops -L https://github.com/getsops/sops/releases/download/v3.9.0/sops-v3.9.0.linux.amd64  && chmod +x /usr/local/bin/sops
+RUN export DEBIAN_FRONTEND=interactive && apt-get install -y age && rm -rf /var/lib/apt/lists/*
 
 USER vscode
 RUN python3 -m pipx ensurepath && sudo python3 -m pipx ensurepath && python3 -m pipx completions

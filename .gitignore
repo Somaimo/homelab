@@ -147,6 +147,9 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+# do not track anything inside secrets folder
+secrets/*.txt
+
 # Pyre type checker
 .pyre/
 
@@ -220,6 +223,14 @@ tags
 # .tfstate files
 *.tfstate
 *.tfstate.*
+
+# do not ignore encrypted tfstate files, with .enc inside
+!*.enc.tfstate
+!*.enc.tfstate.*
+
+# unless it is decrypted
+*.decrypted*tfstate
+*.decrypted*tfstate.*
 
 # Crash log files
 crash.log
