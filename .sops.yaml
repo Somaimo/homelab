@@ -1,0 +1,10 @@
+---
+creation_rules:
+  - path_regex: infrastructure/.*\.yaml
+    age: >-
+      age1tqvmkray65fy4re6fx8l5kq9cjl0uf3yjfd60wn882yrqp2stp6s3x6vgj
+
+  - path_regex: gitops/.*\.yaml
+    encrypted_regex: "^(data|stringData)$"
+    age: >-
+      age1tqvmkray65fy4re6fx8l5kq9cjl0uf3yjfd60wn882yrqp2stp6s3x6vgj
