@@ -149,7 +149,7 @@ dmypy.json
 
 # do not track anything inside secrets folder
 secrets/*.txt
-
+secrets/*/*.txt
 # Pyre type checker
 .pyre/
 
