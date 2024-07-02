@@ -1,11 +1,16 @@
-variable "ctx_name" {
-    description = "Name of the lxc container"
-    type = string
-}
-
 variable "ctx_hostname" {
     type = string
     description = "Set the hostname of the container, should be the same as ctx_name"
+}
+
+variable "ctx_node_name" {
+  type = string
+  description = "Name of node where the container should be created."
+  
+}
+variable "ctx_ssh_keys" {
+  type = list
+  description = "List of public keys that can authenticate through ssh"
 }
 
 variable "ctx_cpu_cores" {
@@ -26,10 +31,38 @@ variable "ctx_swap" {
     default = 2048
 }
 
+variable "ctx_tags" {
+  type = list
+  default = []
+  description = "Tags to append to container"
+}
+
 variable "ctx_description" {
   type        = string
   default     = "Managed by OpenTofu"
   description = "Description of lxc container, please be verbose."
+}
+
+variable "ctx_feature_nesting" {
+  type = bool
+  description = "Define if nesting inside the container is allowed or not. Should be set to 1 if systemd is used."
+  
+}
+
+variable "ctx_start_on_boot" {
+  type = bool
+  default = true
+  description = "Define if the container should be started after host booted."  
+}
+variable "ctx_started" {
+  type = bool
+  default = true
+  description = "Define if container should be started after creation."
+}
+variable "ctx_unprivileged" {
+  type = bool
+  default = true
+  description = "If the container should be run as an unprivilege container. Defaults to true"
 }
 
 variable "ctx_id" {
@@ -39,6 +72,12 @@ variable "ctx_id" {
 variable "ctx_nic_bridge" {
     type = string
     description = "Defines on which network the container is attached."
+}
+variable "ctx_mac_address" {
+  type = string
+  default = null
+  description = "optional mac address for container network adapter"
+  
 }
 variable "ctx_ipv4_address" {
   type        = string
@@ -67,10 +106,13 @@ variable "ctx_os_type" {
   default     = "debian"
   description = "Set the OS type of the container"
 }
+variable "ctx_os_template" {
+  type = string
+  description = "Use default template for lxc container."
+}
 
 variable "ctx_user_password" {
     type = string
-    default =  data.sops_file.proxmox_secrets.data["proxmox_default_password"]
     description = "Sets password for user in container"
     sensitive = true
   
@@ -83,7 +125,7 @@ variable "ctx_datastore_id" {
   
 }
 
-variable "ctx_datastore_size" {
+variable "ctx_disk_size" {
     type = number
     default = 18
     description = "Define disk size for container"
