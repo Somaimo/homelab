@@ -1,0 +1,60 @@
+---
+# pdns_webfrontend.yml tasks file for infrastructure/ansible/roles/core/powerdns
+- name: Add Caddy repo to debian apt
+  block:
+    - name: Add apt repo keyring for Caddy repo
+      ansible.builtin.get_url:
+        url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
+        dest: /etc/apt/keyrings/caddy-stable-archive-keyring.asc
+        checksum: sha256:5791c2fb6b6e82feb5a69834dd2131f4bcc30af0faec37783b2dc1c5c224a82a
+        mode: '0644'
+    - name: Add Caddy main repo
+      ansible.builtin.apt_repository:
+        repo: "deb [signed-by=/etc/apt/keyrings/caddy-stable-archive-keyring.asc] https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"
+        state: present
+    - name: Add Caddy source repo
+      ansible.builtin.apt_repository:
+        repo: "deb-src [signed-by=/etc/apt/keyrings/caddy-stable-archive-keyring.asc] https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"
+        state: present
+
+- name: Install required packages of poweradmin
+  ansible.builtin.package:
+    name:
+      - php8.2-intl
+      - php8.2-sqlite3
+      - php8.2-fpm
+      - php8.2
+      - php8.2-cli
+      - php8.2-common
+      - caddy
+    state: present
+    update_cache: true
+
+- name: Enable php-fpm
+  ansible.builtin.systemd_service:
+    name: php8.2-fpm
+    enabled: true
+
+- name: Update Caddyfile for poweradmin
+  ansible.builtin.template:
+    src: Caddyfile.j2
+    dest: /etc/caddy/Caddyfile
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Restart Caddy
+
+- name: Change Onwership of PowerDNS SQL file for poweradmin to access
+  ansible.builtin.file:
+    path: /var/lib/powerdns/pdns.sqlite3
+    state: file
+    mode: 0664
+
+- name: Install poweradmin
+  ansible.builtin.unarchive:
+    src: "{{ poweradmin.url }}v{{ poweradmin.version }}.tar.gz"
+    dest: /usr/share/caddy
+    remote_src: true
+  notify:
+    - Restart Caddy

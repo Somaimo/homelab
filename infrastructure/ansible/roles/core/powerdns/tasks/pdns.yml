@@ -1,0 +1,108 @@
+
+- name: Add PowerDNS repo to debian apt
+  block:
+    - name: Add apt repo keyring for PowerDNS 4.9.x repo
+      ansible.builtin.get_url:
+        url: https://repo.powerdns.com/FD380FBB-pub.asc
+        dest: /etc/apt/keyrings/auth-master-pub.asc
+        checksum: sha256:40d573c7a77f033b0a598aab1fcfbb66e5eaab744336a502be47d7aaf944b408
+        mode: '0644'
+
+    - name: Add PowerDNS repo 4.9.x repo
+      ansible.builtin.apt_repository:
+        repo: "deb [signed-by=/etc/apt/keyrings/auth-master-pub.asc] http://repo.powerdns.com/debian bookworm-auth-49 main"
+        state: present
+
+- name: Pin pdns auth master packages
+  ansible.builtin.copy:
+    src: files/apt-pin-auth-master
+    dest: /etc/apt/preferences.d/auth-master
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Install PowerDNS 4.9.x authoritative server wit sqlite3 backend
+  ansible.builtin.apt:
+    name:
+      - pdns-server
+      - pdns-backend-sqlite3
+      - sqlite3
+      - python3-pip
+      - python3-venv
+    state: present
+    update_cache: true
+
+- name: manage dependencies needed for powerdns_auth modules
+  ansible.builtin.pip:
+    name:
+      - bravado
+      - jsonschema<4
+      - swagger-spec-validator==2.6.0
+    extra_args: --user
+    virtualenv: ~/.ansible_venv
+    virtualenv_site_packages: yes
+    virtualenv_command: "python3 -m venv"
+
+- name: Create sqlite3 for PowerDNS
+  ansible.builtin.shell: sqlite3 /var/lib/powerdns/pdns.sqlite3 < /usr/share/doc/pdns-backend-sqlite3/schema.sqlite3.sql
+  args:
+    creates: /var/lib/powerdns/pdns.sqlite3
+
+- name: Change ownership of /var/lib/powerdns
+  ansible.builtin.file:
+    path: /var/lib/powerdns
+    state: directory
+    owner: pdns
+    group: pdns
+    recurse: true
+
+# The template activates or deactivates certain functions, based on variables
+- name: Configure PowerDNS 4.9.x as an authoritative nameserver
+  ansible.builtin.template:
+    src: pdns.conf.j2
+    dest: /etc/powerdns/pdns.d/sqlite3.conf
+    owner: root
+    group: pdns
+    mode: '0640'
+  notify:
+    - Restart PowerDNS
+
+# Remove bind configuration
+- name: Remove powerdns bind configuration
+  ansible.builtin.file:
+    state: absent
+    path: /etc/powerdns/pdns.d/bind.conf
+  notify:
+    - Restart PowerDNS
+
+# This Key will be used on the ho.dahu.day domain.
+- name: Generate tsig key for opnsense isc dhcpd
+  kpfleming.powerdns_auth.tsigkey:
+    name: "{{ vault.powerdns.dyndns.tsig_name }}"
+    state: present
+    api_url: "http://localhost:8081"
+    api_key: "{{ vault.powerdns.webfrontend.api_password }}"
+    algorithm: "{{ vault.powerdns.dyndns.tsig_schema }}"
+    key: "{{ vault.powerdns.dyndns.tsig_key }}"
+
+- name: Create powerdns managed domains.
+  kpfleming.powerdns_auth.zone:
+    name: "{{ item }}."
+    state: present
+    api_url: "http://localhost:8081"
+    api_key: "{{ vault.powerdns.webfrontend.api_password }}"
+    properties:
+      kind: "Native"
+      nameservers:
+        - 'ns1.{{ item }}.'
+      soa:
+        mname: 'localhost.'
+        rname: 'hostmaster.{{ item }}.'
+    metadata:
+      allow_dnsupdate_from: "{{ vault.powerdns.dyndns.allow_updates_from }}"
+      tsig_allow_dnsupdate:
+        - "{{ vault.powerdns.dyndns.tsig_name }}"
+  loop: "{{ vault.powerdns.domains }}"
+
+# Install following collection to manage pdns:
+# https://kpfleming.github.io/ansible-powerdns-auth/

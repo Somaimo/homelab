@@ -1,0 +1,28 @@
+# Set backend to sqlite3 and define db filepath
+launch=gsqlite3
+gsqlite3-database=/var/lib/powerdns/pdns.sqlite3
+# Set version string setting
+version-string=powerdns
+
+
+
+# Further setup based on https://doc.powerdns.com/authoritative/dnsupdate.html required
+{% if powerdns.dyndns.enabled == true and powerdns.dyndns.domain != "" %}
+# Configuration for dynamic dns updates
+    
+{% endif %}
+{% if powerdns.webfrontend.enabled== true %}
+# Configuration for webfrontend
+# webserver     Start a webserver for monitoring (api=yes also enables the HTTP listener)
+webserver=yes
+# webserver-address     IP Address of webserver/API to listen on
+webserver-address=127.0.0.1
+webserver-allow-from=127.0.0.1,::1
+# webserver-hash-plaintext-credentials  Whether to hash passwords and api keys supplied in plaintext, to prevent keeping the plaintext version in memory at runtime
+webserver-hash-plaintext-credentials=yes
+# webserver-loglevel    Amount of logging in the webserver (none, normal, detailed)
+webserver-loglevel=detailed
+webserver-password={{ vault.powerdns.webfrontend.api_password }}
+api=yes
+api-key={{ vault.powerdns.webfrontend.api_password }}
+{% endif %}

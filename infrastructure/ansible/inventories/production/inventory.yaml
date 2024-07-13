@@ -1,7 +1,8 @@
 all:
   hosts:
     dnsy-01:
-      ansible_host: dnsy-01.soultree.lan
+      ansible_host: dnsy01.ho.dahu.day
+      ansible_user: root
     bastion:
       ansible_host: bastion.soultree.lan
     turing-n1:
@@ -16,6 +17,7 @@ all:
     domain_name: ho.dahu.day
     ansible_user: ansible
     ansible_ssh_private_key_file: ~/.ssh/ansible
+    ansible_python_interpreter: /usr/bin/python3
 
 k8s_controllers:
   hosts:

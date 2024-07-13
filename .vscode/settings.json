@@ -1,6 +1,6 @@
 {
-    "ansible.ansible.useFullyQualifiedCollectionNames": false,
-    "ansible.python.interpreterPath": "/home/jared/workspace/homelab/.venv/bin/python",
+    "ansible.ansible.useFullyQualifiedCollectionNames": true,
+    "ansible.python.interpreterPath": "/workspace/infrastructure/ansible/.venv/bin/python3",
     "ansible.validation.lint.arguments": "-c .github/linters/.ansible-lint",
     "explorer.excludeGitIgnore": false,
     "files.associations": {

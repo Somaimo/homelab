@@ -1,0 +1,11 @@
+---
+# handlers file for infrastructure/ansible/roles/core/powerdns
+- name: Restart PowerDNS
+  ansible.builtin.service:
+    state: restarted
+    name: pdns.service
+
+- name: Restart Caddy
+  ansible.builtin.service:
+    state: restarted
+    name: caddy

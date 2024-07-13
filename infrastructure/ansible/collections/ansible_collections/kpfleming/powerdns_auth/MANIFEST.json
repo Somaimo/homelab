@@ -1,0 +1,34 @@
+{
+ "collection_info": {
+  "namespace": "kpfleming",
+  "name": "powerdns_auth",
+  "version": "24.1.0",
+  "authors": [
+   "Kevin P, Fleming <kevin@km6g.us> @kpfleming:irc/libera.chat"
+  ],
+  "readme": "README.md",
+  "tags": [
+   "linux",
+   "infrastructure",
+   "dns"
+  ],
+  "description": "Modules to manipulate content in a PowerDNS Authoritative server",
+  "license": [
+   "Apache-2.0"
+  ],
+  "license_file": null,
+  "dependencies": {},
+  "repository": "https://github.com/kpfleming/ansible-powerdns-auth",
+  "documentation": "https://kpfleming.github.io/ansible-powerdns-auth",
+  "homepage": null,
+  "issues": "https://github.com/kpfleming/ansible-powerdns-auth/issues"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "d3f03593b2c25a190be71780ffbb3931bce03ddfd61df7b61fbb42023b8141f2",
+  "format": 1
+ },
+ "format": 1
+}

@@ -1,0 +1,16 @@
+---
+powerdns:
+  domain: "ho.dahu.day"
+  dyndns:
+    enabled: true
+    allow_update_from: "192.168.202.1/32 192.168.100.1/32 192.168.205.1/32"
+    tsig_key: "{{ vault.powerdns.dyndns.tsig_key }}"
+    tsig_schema: "{{ vault.powerdns.dyndns.tsig_schema }}"
+    domain: "{{ vault.powerdns.dyndns.domain }}"
+  webfrontend:
+    enabled: true
+    hostname: "{{ vault.powerdns.webfrontend.hostname }}"
+
+poweradmin:
+  version: "3.7.0"
+  url: "https://github.com/poweradmin/poweradmin/archive/refs/tags/"

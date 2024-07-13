@@ -1,0 +1,12 @@
+---
+# tasks file for infrastructure/ansible/roles/core/powerdns
+# Load sops encrypted vault variables
+- name: Load encrypted credentials
+  community.sops.load_vars:
+    file: ../../../inventories/general_vault.yaml
+    expressions: evaluate-on-load  # explicitly do not evaluate expressions
+                          # on load (this is the default)
+- name: Include PowerDNS Instllation
+  include_tasks: pdns.yml
+- name: Include PDNS Webfrontend Installation
+  include_tasks: pdns_webfrontend.yml
