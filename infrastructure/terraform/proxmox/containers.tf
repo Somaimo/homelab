@@ -24,3 +24,11 @@ module "dnsy_01" {
   ctx_ssh_keys = var.global_ssh_keys
   ctx_feature_nesting = true
 }
+
+resource "cloudflare_record" "pdns_host" {
+  zone_id     = var.cloudflare_home_zone
+  name        = "dns"
+  value       = "81.6.45.114"
+  type        = "A"
+  ttl         = 3600
+}

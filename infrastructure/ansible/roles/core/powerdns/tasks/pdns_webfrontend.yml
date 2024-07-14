@@ -49,7 +49,7 @@
   ansible.builtin.file:
     path: /var/lib/powerdns/pdns.sqlite3
     state: file
-    mode: 0664
+    mode: "0664"
 
 - name: Install poweradmin
   ansible.builtin.unarchive:

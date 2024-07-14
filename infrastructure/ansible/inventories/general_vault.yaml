@@ -11,6 +11,7 @@ vault:
                 - ENC[AES256_GCM,data:HoZ4YEUANDq60RUoAvm5nA==,iv:CStb9DdWLmhYv0/rok+Chqm9MHo8BBGExeLyUSPMGhQ=,tag:Kh9EEOWzLVY1tIXBrlruIg==,type:str]
                 - ENC[AES256_GCM,data:RZod5LFpHmPgo2NmxZEpLQ==,iv:hWT0Z/6RINiLD5la+r5UikxK2nIsvX1OjI2h3vFPjB0=,tag:h9NYWt0UvYX6HCGb6DFnCg==,type:str]
                 - ENC[AES256_GCM,data:gVGNEvdZdpyGYPzTjBk5mQ==,iv:NKVW8MLgdxPMruPfRG6hQVaYZanqNP6jGiUc6JQ0+eA=,tag:UwvL4k1+1tZkfgznvEKxcw==,type:str]
+                - ENC[AES256_GCM,data:XJm3jsbrrfjXVZq0dDtrWUjA8KtSFm+SPIoKKYgZNVFf44uNvNqU,iv:aW5f4yIWg52NdNXB/h6GWprVONPwohSiOI7nSmzYyos=,tag:JfbwwrS8V6V18V+0jbe0ow==,type:str]
         webfrontend:
             hostname: ENC[AES256_GCM,data:YvslvKYnK16DwF8YZ5j+,iv:YFgTVHABU/UTeS2cQ3LxjjBEc2vK2KPDu0bhoQ6TIlU=,tag:Bm5VfOEonu7esgtqSk0TCQ==,type:str]
             api_password: ENC[AES256_GCM,data:ENZsZjmB8lu0GigkxFVQndCmkg8c,iv:VGbp2cguio2R9XuGmcOdSmKgZJkNtvq6Ra5/tRa3t6M=,tag:5BN5s1sEl970JgMGG+wDmw==,type:str]
@@ -29,8 +30,8 @@ sops:
             SGhxUFI1MDVNb0lxa2FMNVRQMFRQckkKWMJ+zmUlhznLGzFVRDRcDpXfiuPM6ium
             TPCiG547qsafg0YBYRgWM23bEFcd7RaUK7a/6tIn6kltnxNOGoTe5g==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-07-13T14:19:18Z"
-    mac: ENC[AES256_GCM,data:OBk2ZS59raQYyDXmml7QjNAjDxPcv356T6OLWylSzkul3xKi46UbWVMEVngorpPHiNBhV57YJO4BC1GS/xUPTUSIK/NbVAd7Vmu/cadD21jQg7sKWtXlNu32WuQYkrl5YdbF5243i6OP1q7bAh8BktkNY0mo1c4TizEBrN93lYg=,iv:Q6vzfJf4wB5lcayVaUhpP1CigXyWK7nVhTudj+k/xj0=,tag:MsmopY0imGHQqabBdsEzuw==,type:str]
+    lastmodified: "2024-07-14T16:28:26Z"
+    mac: ENC[AES256_GCM,data:M7xZzgkDlqaih334FIvcXS9Iu7HBOWbt5b1V0JBYZgrC6q7dLGgFG64QL9MUHc/thkeD9GnjCBAwnGArvUPyUC5FxkacKoM3l1uxLc/m9jDg4eYsVaxcK6Uww5aIk+3RQJjJ0y5ghAjvMJrlWxVN0iOnwj/OQU5QwQmRpXQnZK4=,iv:UHQ+ltbQ+bmqVO0H+clnG5CCR/rJzf1VBwOK8iE9W+E=,tag:EBVAZtpYuDsAm9/vq1Q4zA==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.9.0

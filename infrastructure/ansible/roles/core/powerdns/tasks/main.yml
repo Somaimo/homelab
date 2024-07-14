@@ -7,6 +7,6 @@
     expressions: evaluate-on-load  # explicitly do not evaluate expressions
                           # on load (this is the default)
 - name: Include PowerDNS Instllation
-  include_tasks: pdns.yml
-- name: Include PDNS Webfrontend Installation
-  include_tasks: pdns_webfrontend.yml
+  ansible.builtin.include_tasks: pdns.yml
+# - name: Include PDNS Webfrontend Installation
+#   ansible.builtin.include_tasks: pdns_webfrontend.yml

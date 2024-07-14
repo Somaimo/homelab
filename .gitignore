@@ -277,3 +277,4 @@ cluster/**/charts/
 # VScode SOPS plugin
 .decrypted~*.sops.yml
 .decrypted~*.sops.yaml
+.decrypted~*.yaml

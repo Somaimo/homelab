@@ -11,3 +11,8 @@ variable "lxc_default_template" {
     default = "nfs_isos:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst"
   
 }
+
+variable "cloudflare_home_zone" {
+  type = string
+  default = "ho.dahu.day"
+}

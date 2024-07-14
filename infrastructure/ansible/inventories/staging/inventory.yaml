@@ -8,7 +8,7 @@ all:
       ansible_host: cluster-control-03.soultree.lan
     cluster-worker-01:
       ansible_host: cluster-worker-01.soultree.lan
-    cluster-worker-02: 
+    cluster-worker-02:
       ansible_host: cluster-worker-02.soultree.lan
     cluster-worker-03:
       ansible_host: cluster-worker-03.soultree.lan
@@ -34,4 +34,3 @@ k8s_cluster:
 
 sec_log_servers:
   hosts:
-    

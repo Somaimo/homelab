@@ -14,3 +14,7 @@ provider "proxmox" {
     username = data.sops_file.proxmox_secrets.data["proxmox_ssh_username"]
   }
 }
+
+provider "cloudflare" {
+  api_token = data.sops_file.cloudflare_secrets.data["cloudflare_api_token"]
+}

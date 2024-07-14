@@ -6,3 +6,7 @@
 data "sops_file" "proxmox_secrets" {
   source_file = "proxmox_secrets.sops.yaml"
 }
+
+data "sops_file" "cloudflare_secrets" {
+  source_file = "cloudflare_secrets.sops.yaml"
+}
