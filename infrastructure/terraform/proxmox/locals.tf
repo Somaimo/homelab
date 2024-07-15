@@ -14,5 +14,6 @@ variable "lxc_default_template" {
 
 variable "cloudflare_home_zone" {
   type = string
-  default = "ho.dahu.day"
+  default = "b1822f0cedc91586e92575f9497401d5"
+  description = "Zone ID for dahu.day domain"
 }
