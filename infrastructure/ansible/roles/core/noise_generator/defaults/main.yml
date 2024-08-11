@@ -1,0 +1,3 @@
+---
+# defaults file for ./roles/core/noise_generator
+infinite_noise_version: "0.3.3"

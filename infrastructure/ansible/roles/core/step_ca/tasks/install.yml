@@ -1,0 +1,61 @@
+---
+# file: step_ca/tasks/install.yml
+
+- name: Set Timezone to ensure correct functionality
+  community.general.timezone:
+    name: "Europe/Zurich"
+
+- name: Install required packages for tinyCA
+  ansible.builtin.apt:
+    name:
+      - yubikey-manager
+      - dbus
+      - podman
+      - dbus-user-session
+    state: present
+    update_cache: true
+
+- name: Unmask, enable and start systemd-logind and dbus
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    masked: false
+    enabled: true
+    state: started
+  with_items:
+    - dbus
+    - systemd-logind
+
+- name: Login to Docker Hub
+  containers.podman.podman_login:
+    username: "{{ tinyca.docker_hub_username }}"
+    password: "{{ tinyca.docker_hub_password }}"
+    registry: docker.io
+  when: >
+    tinyca.docker_hub_username and
+    tinyca.docker_hub_password
+
+- name: Create tinyca secret for init password
+  containers.podman.podman_secret:
+    state: present
+    name: tinyca_init_password
+    data: "{{ tinyca.init_password }}"
+    force: true
+
+- name: Create tinyca secret for provisioner password
+  containers.podman.podman_secret:
+    state: present
+    name: tinyca_provisioner_password
+    data: "{{ vault.tinyca.provisioner_password }}"
+    force: true
+
+- name: Pull step ca hsm image
+  containers.podman.podman_image:
+    name: docker.io/smallstep/step-ca:{{ step_ca_version }}-hsm
+
+- name: Make sure there is a step folder in the root home for important container data
+  ansible.builtin.file:
+    state: directory
+    mode: '0700'
+    path: /root/step
+    owner: dietpi
+    group: dietpi

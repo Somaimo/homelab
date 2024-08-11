@@ -1,0 +1,107 @@
+---
+# file: playbooks/init_tinyca.yml
+# The tasks inside this file should only be run, if you want to recreate the
+# dahu Root and dahu Intermediate CA based on smallstep.
+#
+# The tasks include:
+# - Generate root CA private key and save it on the yubikey in slot 82 and generate the root certificate
+# - Generate intermediate CA private key and save it on the yubikey in slot 83 and generate the intermediate certificate
+# - Generate the ssh keys in slot 84 and 85.
+# - Store the certificates in the correct place
+# - Prepare the Configuration file for the dahu certificate authority
+# - Setup a podman volume with all the necessary configuration
+# - Setup the podman container (including setting up as a systemd service) and run it
+
+
+
+- name: Install tinyca core service on raspi
+  hosts: ca_servers
+  tags:
+    - tinyca
+    - core
+  become: true
+  roles:
+    - role: noise_generator # noqa syntax-check[specific]
+      become: true
+  tasks:
+    # Load sops encrypted vault variables
+    - name: Load encrypted credentials
+      community.sops.load_vars:
+        file: ../inventories/general_vault.yaml
+        expressions: ignore  # explicitly do not evaluate expressions
+                              # on load (this is the default)
+    - name: Set Timezone to ensure correct functionality
+      community.general.timezone:
+        name: "Europe/Zurich"
+
+    - name: Install required packages for tinyCA
+      ansible.builtin.apt:
+        name:
+          - yubikey-manager
+          - podman
+          - dbus
+          - dbus-user-session
+        state: present
+        update_cache: true
+
+    - name: Unmask, enable and start systemd-logind and dbus
+      ansible.builtin.systemd_service:
+        name: "{{ item }}"
+        masked: false
+        enabled: true
+        state: started
+      with_items:
+        - dbus
+        - systemd-logind
+
+    - name: Login to Docker Hub
+      containers.podman.podman_login:
+        username: "{{ vault.docker_hub_username }}"
+        password: "{{ vault.docker_hub_password }}"
+        registry: docker.io
+
+    - name: Create tinyca secret for init password
+      containers.podman.podman_secret:
+        state: present
+        name: tinyca_init_password
+        data: "{{ vault.tinyca.init_password }}"
+        force: true
+
+    - name: Create tinyca secret for provisioner password
+      containers.podman.podman_secret:
+        state: present
+        name: tinyca_provisioner_password
+        data: "{{ vault.tinyca.provisioner_password }}"
+        force: true
+
+    - name: Create tinyca podman container
+      containers.podman.podman_container:
+        name: tinyca
+        image: docker.io/smallstep/step-ca:0.27.2-hsm
+        state: started
+        device:
+          - "/dev/ttyUSB0:/dev/ttyUSB0:rwm"
+          - "/dev/urandom:/dev/urandom:r"
+        env:
+          DOCKER_STEPCA_INIT_NAME: "Locust Homelab CA"
+          DOCKER_STEPCA_INIT_DNS_NAMES: "localhost,locust.ho.dahu.day,dns.dahu.day"
+          DOCKER_STEPCA_INIT_REMOTE_MANAGEMENT: true
+          DOCKER_STEPCA_INIT_PROVISIONER_NAME: admin
+          DOCKER_STEPCA_INIT_SSH: true
+          DOCKER_STEPCA_INIT_ACME: true
+          DOCKER_STEPCA_INIT_PASSWORD_FILE: "/run/secrets/tinyca_init_password"
+        expose:
+          - 9000
+        publish:
+          - 9000:9000
+        secrets:
+          - tinyca_init_password
+
+    - name: Get Root CA Fingerprint of tinyCA and register it with tinyca_root_fingerprint
+      ansible.builtin.shell: 
+        cmd: podman logs tinyca 2>&1 | grep "Root Fingerprint" | sed -En "s/.*://p"
+      register: tinyca_root_fingerprint
+
+    - name: Output root ca Fingerprint
+      ansible.builtin.debug:
+        msg: "Root CA Fingerprint: {{ tinyca_root_fingerprint.stdout }}"

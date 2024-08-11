@@ -1,0 +1,17 @@
+---
+# file: pdns.yml
+- name: Install powerdns core service
+  hosts: dns_servers
+  tags:
+    - dns
+    - core
+  tasks:
+    # Load sops encrypted vault variables
+    - name: Load encrypted credentials
+      community.sops.load_vars:
+        file: ../inventories/general_vault.yaml
+        expressions: ignore  # explicitly do not evaluate expressions
+                              # on load (this is the default)
+  roles:
+    - role: powerdns # noqa syntax-check[specific]
+      become: true

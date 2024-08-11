@@ -1,0 +1,15 @@
+---
+# tasks file for ./roles/core/noise_generator
+- name: Install dependencies
+  ansible.builtin.package:
+    name:
+      - libftdi-dev
+      - libusb-dev
+      - infnoise
+    state: present
+
+- name: Make sure systemd service for infnoise is running
+  ansible.builtin.systemd_service:
+    name: infnoise.service
+    state: started
+    enabled: true

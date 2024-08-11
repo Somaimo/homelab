@@ -3,6 +3,9 @@ all:
     dnsy-01:
       ansible_host: dnsy01.ho.dahu.day
       ansible_user: root
+    locust:
+      ansible_host: locust.ho.dahu.day
+      ansible_user: dietpi
     bastion:
       ansible_host: bastion.soultree.lan
     turing-n1:
@@ -35,6 +38,10 @@ k8s_cluster:
 dns_servers:
   hosts:
     dnsy-01:
+
+ca_servers:
+  hosts:
+    locust:
 
 sec_log_servers:
   hosts:

@@ -1,0 +1,5 @@
+---
+# handlers file for ./roles/core/noise_generator
+- name: Restart server
+  ansible.builtin.reboot:
+    

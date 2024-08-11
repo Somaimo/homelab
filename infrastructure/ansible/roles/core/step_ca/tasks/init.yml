@@ -1,0 +1,138 @@
+---
+# file: step_ca/tasks/init.yml
+
+- name: Block to prepare the configuration for tinyca
+  when: tinyca.initialize_ca
+  block:
+    - name: Concatenate dns_domain list
+      set_fact:
+        dns_comb_domain: "{{ tinyca.dns_domain | join(',') }}"
+
+    - name: Generate default config for step ca
+      containers.podman.podman_container:
+        name: generate_initial_config
+        image: "docker.io/smallstep/step-ca:{{ step_ca_version }}-hsm"
+        rm: true
+        detach: false
+        user: 0
+        privileged: true
+        volume:
+          - "/root/step:/home/step"
+        secrets:
+          - tinyca_provisioner_password
+          - tinyca_init_password
+        command: step ca init --name={{ tinyca.name | quote }} --dns={{ dns_comb_domain | quote }} --address=:9000 --provisioner={{ tinyca.provisioner_admin | quote }} --deployment-type standalone --password-file=/run/secrets/tinyca_init_password --provisioner-password-file=/run/secrets/tinyca_provisioner_password --remote-management
+
+- name: Block for creating root and intermediate keys (only if initialize_ca is set to true)
+  when: tinyca.initialize_ca
+  block:
+    - name: Create root ca key and save it on yubikey
+      containers.podman.podman_container:
+        name: generate_root_ca_key
+        image: "docker.io/smallstep/step-ca:{{ step_ca_version }}-hsm"
+        rm: true
+        detach: false
+        user: 0
+        privileged: true
+        command: 'step kms create --kty {{ tinyca.key_type }} {% if tinyca.key_curve is defined %} --crv {{ tinyca.key_curve }} {% endif %} --alg {{ tinyca.key_hash }} {% if tinyca.key_size != "" %}--size tinyca.key_size{% endif %} --json yubikey:slot-id=82?management-key={{ tinyca.yubi_piv_mgmt_key }}'
+      register: root_ca_output
+
+    - name: Debug - generated public key for root ca
+      ansible.builtin.debug:
+        msg: "Content of root ca: {{ root_ca_output.stdout | to_nice_json }}"
+
+    - name: Create intermediate ca key and save it on yubikey
+      containers.podman.podman_container:
+        name: generate_intermediate_ca_key
+        image: "docker.io/smallstep/step-ca:{{ step_ca_version }}-hsm"
+        rm: true
+        detach: false
+        user: 0
+        privileged: true
+        command: 'step kms create --kty {{ tinyca.key_type }} {% if tinyca.key_curve is defined %} --crv {{ tinyca.key_curve }} {% endif %} --alg {{ tinyca.key_hash }} {% if tinyca.key_size != "" %}--size tinyca.key_size{% endif %} --json yubikey:slot-id=82?management-key={{ tinyca.yubi_piv_mgmt_key }}' 
+      register: intermediate_ca_output
+
+    - name: Debug - generated public key for intermediate ca
+      ansible.builtin.debug:
+        msg: "Content of root ca: {{ intermediate_ca_output.stdout | to_nice_json }}"
+    - name: Debug - generated public key for intermediate ca
+      ansible.builtin.debug:
+        msg: "Content of root ca: {{ intermediate_ca_output | to_nice_json }}"
+
+- name: Block for creating and signing root and intermediate certificate (only if initialize_ca is set to true)
+  when: tinyca.initialize_ca
+  block:
+    - name: Create and sign root certificate
+      containers.podman.podman_container:
+        name: generate_root_certificate
+        image: "docker.io/smallstep/step-ca:{{ step_ca_version }}-hsm"
+        rm: true
+        detach: false
+        user: 0
+        privileged: true
+        volume:
+          - "/root/step:/home/step"
+        command: step certificate create --force --profile root-ca --kms yubikey:pin-value={{ tinyca.yubi_piv_pin }} --key yubikey:slot-id=82?management-key={{ tinyca.yubi_piv_mgmt_key }} {{ tinyca.name }}-Root-CA /home/step/certs/root_ca.crt
+    - name: Create and sign intermediate certificate
+      containers.podman.podman_container:
+        name: generate_intermediate_certificate
+        image: "docker.io/smallstep/step-ca:{{ step_ca_version }}-hsm"
+        rm: true
+        detach: false
+        user: 0
+        privileged: true
+        volume:
+          - "/root/step:/home/step"
+        command: step certificate create --force --profile intermediate-ca --ca /home/step/certs/root_ca.crt --kms yubikey:pin-value={{ tinyca.yubi_piv_pin }} --ca-kms yubikey:pin-value={{ tinyca.yubi_piv_pin }} --ca-key yubikey:slot-id=82?management-key={{ tinyca.yubi_piv_mgmt_key }} --key yubikey:slot-id=83?management-key={{ tinyca.yubi_piv_mgmt_key }} {{ tinyca.name }}-Intermediate-CA /home/step/certs/intermediate_ca.crt
+    - name: Import Root Certificate into Yubikey
+      ansible.builtin.command:
+        cmd: ykman piv certificates import -m {{ tinyca.yubi_piv_mgmt_key }} -P {{ tinyca.yubi_piv_pin }} 82 /root/step/certs/root_ca.crt
+    - name: Import Root Certificate into Yubikey
+      ansible.builtin.command:
+        cmd: ykman piv certificates import -m {{ tinyca.yubi_piv_mgmt_key }} -P {{ tinyca.yubi_piv_pin }} 83 /root/step/certs/intermediate_ca.crt
+
+- name: Block for creating SSH keys if ssh_ca is enabled
+  when: tinyca.initialize_ca and tinyca.ssh_ca
+  block:
+    - name: Create first SSH CA
+      containers.podman.podman_container:
+        name: generate_first_ssh_ca_key
+        image: "docker.io/smallstep/step-ca:{{ step_ca_version }}-hsm"
+        rm: true
+        detach: false
+        user: 0
+        privileged: true
+        command: 'step kms create --kty {{ tinyca.key_type }} {% if tinyca.key_curve is defined %} --crv {{ tinyca.key_curve }} {% endif %} --alg {{ tinyca.key_hash }} {% if tinyca.key_size != "" %}--size tinyca.key_size{% endif %} --json yubikey:slot-id=84?management-key={{ tinyca.yubi_piv_mgmt_key }}' 
+      register: ssh_first_ca
+      retries: 5
+      delay: 20
+      until: ssh_first_ca.failed == false
+
+    - name: Debug - generated public key for first ssh ca
+      ansible.builtin.debug:
+        msg: "Content of root ca: {{ ssh_first_ca.stdout | to_nice_json }}"
+
+    - name: Create second SSH CA
+      containers.podman.podman_container:
+        name: generate_second_ssh_ca_key
+        image: "docker.io/smallstep/step-ca:{{ step_ca_version }}-hsm"
+        rm: true
+        detach: false
+        user: 0
+        privileged: true
+        command: 'step kms create --kty {{ tinyca.key_type }} {% if tinyca.key_curve is defined %} --crv {{ tinyca.key_curve }} {% endif %} --alg {{ tinyca.key_hash }} {% if tinyca.key_size != "" %}--size tinyca.key_size{% endif %} --json yubikey:slot-id=85?management-key={{ tinyca.yubi_piv_mgmt_key }}' 
+      register: ssh_second_ca
+      retries: 5
+      delay: 20
+      until: ssh_second_ca.failed == false
+
+    - name: Debug - generated public key for second ssh ca
+      ansible.builtin.debug:
+        msg: "Content of root ca: {{ ssh_second_ca.stdout | to_nice_json }}"
+
+- name: Update step ca configuration with yubikey data
+  ansible.builtin.template:
+    src: ca.json.j2
+    dest: /root/step/config/ca.json
+    
+

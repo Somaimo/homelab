@@ -14,3 +14,23 @@ powerdns:
 poweradmin:
   version: "3.7.0"
   url: "https://github.com/poweradmin/poweradmin/archive/refs/tags/"
+
+tinyca:
+  ssh_ca: true
+  initialize_ca: false
+  docker_hub_username: "{{ vault.docker_hub_username }}"
+  docker_hub_password: "{{ vault.docker_hub_password }}"
+  init_password: "{{ vault.tinyca.init_password }}"
+  provisioner_admin: "{{ vault.tinyca.provisioner_admin }}"
+  provisioner_password: "{{ vault.tinyca.provisioner_password }}"
+  step_ca_version: "latest"
+  name: "{{ vault.tinyca.name }}"
+  yubi_piv_pin: "{{ vault.tinyca.yubi_piv_pin }}"
+  yubi_piv_mgmt_key: "{{ vault.tinyca.yubi_piv_mgmt_key }}"
+  key_type: "{{ vault.tinyca.key_type }}"
+  key_curve: "{{ vault.tinyca.key_curve }}"
+  key_size: "{{ vault.tinyca.key_size }}"
+  key_hash: "{{ vault.tinyca.key_hash }}"
+  address: "{{ vault.tinyca.address }}"
+  dns_domain: "{{ vault.tinyca.dns_domain }}"
+

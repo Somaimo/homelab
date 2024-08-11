@@ -1,10 +1,11 @@
 ---
-# file: pdns.yaml
-- name: Install powerdns core service
-  hosts: dns_servers
+# file: playbooks/tinyca.yml
+- name: Install tinyca core service on raspi
+  hosts: ca_servers
   tags:
-    - dns
+    - tinyca
     - core
+  become: true
   tasks:
     # Load sops encrypted vault variables
     - name: Load encrypted credentials
@@ -13,5 +14,5 @@
         expressions: ignore  # explicitly do not evaluate expressions
                               # on load (this is the default)
   roles:
-    - role: powerdns
-      become: true
+    - role: noise_generator  # noqa syntax-check[specific] 
+    - role: core/step_ca # noqa syntax-check[specific]

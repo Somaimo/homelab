@@ -1,0 +1,34 @@
+---
+# file: step_ca/tasks/run.yml
+
+- name: Configure Step CA Container with systemd
+  containers.podman.podman_container:
+    name: step_ca
+    image: "docker.io/smallstep/step-ca:{{ step_ca_version }}-hsm"
+    rm: false
+    state: created
+    detach: true
+    user: 0
+    privileged: true
+    volume:
+      - "/root/step:/home/step"
+    ports:
+      "443:9000"
+    secrets:
+      - tinyca_provisioner_password
+      - tinyca_init_password
+    env:
+      DOCKER_STEPCA_INIT_PASSWORD_FILE: "/run/secrets/tinyca_init_password"
+      PWDPATH: "/run/secrets/tinyca_init_password"
+    generate_systemd:
+      path: /etc/systemd/system/
+      restart_policy: always
+      names: true
+      container_prefix: container
+
+- name: Start Step CA Container
+  ansible.builtin.systemd_service:
+    name: container-step_ca
+    state: started
+    daemon_reload: true
+    enabled: true
