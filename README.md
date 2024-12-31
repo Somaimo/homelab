@@ -64,6 +64,9 @@ ansible-galaxy collection install -U -r requirements.yaml
 ansible-playbook homelab.yml
 ```
 
+The terraform/opentofu stuff uses a Google Cloud Storage backend and you have to prepare your shell environment to be able to run tofu commands.
+To prepare your shell, simply run ``` source ./01_prep_env.sh ``` file in a *sh Shell.
+
 # 🍇 Cluster
 
 ## Infrastructure Automation

@@ -2,6 +2,7 @@ vault:
     powerdns:
         domains:
             - ENC[AES256_GCM,data:5fUM7foPQ7LGPPc=,iv:4zmoI7qo1CTRpm8AkPQ5K3RosCyb1Czx2JaIUy/c3jw=,tag:AQ2twfklTLeLRQCr13BmCQ==,type:str]
+            - ENC[AES256_GCM,data:lGpKp7mtsH6lgwP3,iv:9FNtZ66R1jVQLs/IhkFRjpC1au2nlxRoSUMj/mrsevg=,tag:tzuoc6qCMl5NCami8fmeCQ==,type:str]
         dyndns:
             tsig_key: ENC[AES256_GCM,data:XOfILoKZo3z64xI00r7+XrrDTRSyS8944YXAKsDjnO/veBifV3QOqeU3wDc2GMPyVlt+w1eRCQGxiQHkGVfM0yiVbLhOy/mgwSq3Cfcp0kFHY9WHkCgHaA==,iv:ddDPVRMfrp+aa+YUOa5igAn/i3HfKXsnTtERpc7kC0I=,tag:ajqdljhl7GUmZoQOvUAtBg==,type:str]
             tsig_schema: ENC[AES256_GCM,data:3jJY8lrDQV6Dha4=,iv:VMzPQz3dsxjJfL6M4+HG9B8rMucNgHsJd/wce213zi0=,tag:QRmfX4IkViotLWqDM0ky1Q==,type:str]
@@ -28,6 +29,7 @@ vault:
         key_hash: ENC[AES256_GCM,data:jdI4Xthn,iv:lx9dy7byzDQb550VF3Yqj+gPG+HuiL/fyVQWh7hHmfk=,tag:ux/1fAvGX/WOEmrkWGla8A==,type:str]
         address: ENC[AES256_GCM,data:kqO5ww==,iv:R8wvr39Mn328BbnMi3wFiFgSzFBw1egu/NsuGFSb4iE=,tag:u5/Mal76WTUOOzyitNJUkg==,type:str]
         dns_domain:
+            - ENC[AES256_GCM,data:Ii6plEpWgmZ1,iv:9bKa6L1DSaAssnGisoIK+U/YM3IapVqLCv8i8C/b8Dk=,tag:fMggzcx3SXcxejMC7Nhh2g==,type:str]
             - ENC[AES256_GCM,data:VYOFOVPX0U+jH3HVuK8=,iv:UWEiqn+5vNxMRWy87adYidZ2+Q6PBBeTrJalvWiE968=,tag:eqkDsKNe1zWmlWnaZL/iCw==,type:str]
             - ENC[AES256_GCM,data:RSCG93uIICgg5XgGUu6z,iv:jnzlmW03SgkRHAZnPOhSdD8cIE9F9qn1bvd8DUZkRFE=,tag:3JuRu8BRZaOV85ZvHha2bA==,type:str]
             - ENC[AES256_GCM,data:qK3ypgcTCAJHKFdzj4D58htP6sX1DSc7F6irrCr345C7U3HnAA==,iv:oI8+a8aLWl7ceWgdvJNsneP9eeSC92kfy5neqPCttXw=,tag:UCtoHCTm/u95OTisVS1nIQ==,type:str]
@@ -48,8 +50,8 @@ sops:
             SGhxUFI1MDVNb0lxa2FMNVRQMFRQckkKWMJ+zmUlhznLGzFVRDRcDpXfiuPM6ium
             TPCiG547qsafg0YBYRgWM23bEFcd7RaUK7a/6tIn6kltnxNOGoTe5g==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-08-11T11:22:44Z"
-    mac: ENC[AES256_GCM,data:EPsBWG7hDNYhU5ZAF01HL1Mlz2WWGOOPov6nYjmUfgEiyhO0jllpC5IGredbyPKTGi7xwvPSvLqFv0mGw4y+izaqbRnOqoKolZ7Jqcbw8MgcKIGPABKRc2ipvatV6GCxyeIwWiTX0YHVNOckJYvyMUYlv1YnOx/s/CWxJTYVdRU=,iv:4pI0KxDVy4i13xSDEt4QSLGsjOPgqw2iWdwCz6o7Y+w=,tag:ShUTLkbUE+mQkmFnDe+k7A==,type:str]
+    lastmodified: "2024-08-19T13:03:30Z"
+    mac: ENC[AES256_GCM,data:5pE5ZpmIjYLW6ODQDcKcub+YyTkgD4Ux2+9mIHq9jEUstcxUQH9P/NkQ5AjZi2fGdG5qfyjeipgVIUfUGS4NSR14Xq/Vqv2JeWzTucTAMdv/QLzFCudOaknmExPWUtreVkRcfmxHGOoVRXnkCYDbCF7Ywgn7QoPUCrePU2rGbPw=,iv:QWtS4jGuYTUh2bRR2ECK/wJ+Z1CLxW07FdVlF0oksV4=,tag:kdBlYfC0sWPiP8O0nNvmlQ==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.9.0

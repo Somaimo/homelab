@@ -23,19 +23,19 @@
         "policy": {
           "x509": {
               "allow": {
-                "dns": ["*.ho.dahu.day"],
+                "dns": ["*.ho.dahu.day", "*.sys.dahu.day", "*.dev.dahu.day"],
                 "ip": ["192.168.0.0/16","2a02:169:5bee::/64"]
               }
           },
           "ssh": {
             "user": {
               "allow": {
-                "email": ["@ho.dahu.day"],
+                "email": ["@ho.dahu.day","@sys.dahu.day", "@dev.dahu.day"],
                 "principal": ["*"]
               }
             },
             "host": {
-                "dns": ["*.ho.dahu.day"],
+                "dns": ["*.ho.dahu.day","*.sys.dahu.day", "*.dev.dahu.day"],
                 "ip": ["192.168.0.0/16","2a02:169:5bee::/64"]
               }
             }
