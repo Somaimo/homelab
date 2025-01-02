@@ -27,6 +27,9 @@ RUN echo 'eval "$(oh-my-posh init bash)"' | tee -a /home/vscode/.bashrc
 RUN curl -o /usr/local/bin/sops -L https://github.com/getsops/sops/releases/download/v3.9.0/sops-v3.9.0.linux.amd64  && chmod +x /usr/local/bin/sops
 RUN export DEBIAN_FRONTEND=interactive && apt-get install -y age && rm -rf /var/lib/apt/lists/*
 
+# Install gcloud
+RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg && apt-get update -y && apt-get install google-cloud-cli -y
 
 USER vscode
 RUN python3 -m pipx ensurepath && sudo python3 -m pipx ensurepath && python3 -m pipx completions

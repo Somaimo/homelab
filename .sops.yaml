@@ -1,5 +1,9 @@
 ---
 creation_rules:
+  # AWS testing infra has its own encryption key.
+  - path_regex: aws_testing/secrets/.*\.yaml$
+    age: >-
+      age1rn0tdttk6ylrven8jj5rph3nvmarhf6cjywupzdva52rdxs82p3slee9xm
   - path_regex: infrastructure/.*\.yaml
     age: >-
       age1tqvmkray65fy4re6fx8l5kq9cjl0uf3yjfd60wn882yrqp2stp6s3x6vgj
