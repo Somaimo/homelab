@@ -8,6 +8,11 @@ output "project_id" {
   description = "GCloud Project ID"
 }
 
+output "env-dynamic-url" {
+  value = "https://${google_container_cluster.primary.endpoint}"
+}
+
+
 output "kubernetes_cluster_name" {
   value       = google_container_cluster.primary.name
   description = "GKE Cluster Name"

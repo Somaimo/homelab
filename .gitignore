@@ -10,6 +10,9 @@ __pycache__/
 # C extensions
 *.so
 
+# ignore .direnv
+.direnv/
+
 # Distribution / packaging
 .Python
 build/

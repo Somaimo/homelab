@@ -12,3 +12,7 @@ You need to create a .tfvars file with the following variables:
 ## Resources
 
 The project will create the a VPC, a Kubernetes Cluster and a node Pool.
+
+## Acknowledgements
+
+This is heavily inspired by: (https://gitlab.com/demos/infrastructure/gitlab-terraform-gke-argocd)[https://gitlab.com/demos/infrastructure/gitlab-terraform-gke-argocd]

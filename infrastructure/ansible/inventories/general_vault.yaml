@@ -1,6 +1,7 @@
 vault:
     powerdns:
         domains:
+            - ENC[AES256_GCM,data:NSBtJGJ4Q0aFIWD/,iv:uhMtfAfrSIAHM5oLrvfHaJIWEGW/ua13HPURPWiteUo=,tag:jZKKeqiuz86SW4YlW/q8eQ==,type:str]
             - ENC[AES256_GCM,data:5fUM7foPQ7LGPPc=,iv:4zmoI7qo1CTRpm8AkPQ5K3RosCyb1Czx2JaIUy/c3jw=,tag:AQ2twfklTLeLRQCr13BmCQ==,type:str]
             - ENC[AES256_GCM,data:lGpKp7mtsH6lgwP3,iv:9FNtZ66R1jVQLs/IhkFRjpC1au2nlxRoSUMj/mrsevg=,tag:tzuoc6qCMl5NCami8fmeCQ==,type:str]
         dyndns:
@@ -50,8 +51,8 @@ sops:
             SGhxUFI1MDVNb0lxa2FMNVRQMFRQckkKWMJ+zmUlhznLGzFVRDRcDpXfiuPM6ium
             TPCiG547qsafg0YBYRgWM23bEFcd7RaUK7a/6tIn6kltnxNOGoTe5g==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-08-19T13:03:30Z"
-    mac: ENC[AES256_GCM,data:5pE5ZpmIjYLW6ODQDcKcub+YyTkgD4Ux2+9mIHq9jEUstcxUQH9P/NkQ5AjZi2fGdG5qfyjeipgVIUfUGS4NSR14Xq/Vqv2JeWzTucTAMdv/QLzFCudOaknmExPWUtreVkRcfmxHGOoVRXnkCYDbCF7Ywgn7QoPUCrePU2rGbPw=,iv:QWtS4jGuYTUh2bRR2ECK/wJ+Z1CLxW07FdVlF0oksV4=,tag:kdBlYfC0sWPiP8O0nNvmlQ==,type:str]
+    lastmodified: "2025-02-08T20:55:34Z"
+    mac: ENC[AES256_GCM,data:7yA1pO9XPKKP7W6r1id3glBs3thWkPL1w3cXnz8Fdv3JPlhdQ5ZhQz1YM9poT20/DBT2dMsTqH5JbIsWohPXMAKcSb1uvZaadhm5RJ5wNY/mc6WXxtEV8/24HiOt/qHGPATtfUeZylGPwgYHaS96GeF19yBIywirwIZ3HbzKojk=,iv:8FNQ62TFuRWU8rxEoI2DXOlsQCH+R+e6WAgGP7LDNtA=,tag:4e2nyTEX5hxA15O0qJw8Pw==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.9.0
