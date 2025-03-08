@@ -69,6 +69,24 @@ Create a file with the SOPS/age Keys in ```./secrets/sops/age-key.txt```.
 The terraform/opentofu stuff uses a Google Cloud Storage backend and you have to prepare your shell environment to be able to run tofu commands.
 To prepare your shell, simply run ``` source ./01_prep_env.sh ``` file in a *sh Shell.
 
+# ⚒️ Extending
+
+##  <img src="./design/icons/ansible-light.png" height="25"/> Ansible
+
+If you want to create new playbooks, always make sure to include the following pre_tasks. If not, the playbook will fail because ansible cannot find the correct variables.
+```yaml
+  pre_tasks:
+    # Load sops encrypted vault variables
+    - name: Load encrypted credentials
+      community.sops.load_vars:
+        file: ../inventories/general_vault.yaml
+        expressions: ignore  # explicitly do not evaluate expressions
+                              # on load (this is the default)
+    - name: Load General vars
+      ansible.builtin.include_vars:
+        file: ../inventories/general_vars.yaml
+```
+
 # 🍇 Cluster
 
 ## Infrastructure Automation

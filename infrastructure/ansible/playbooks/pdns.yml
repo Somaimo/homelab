@@ -12,6 +12,9 @@
         file: ../inventories/general_vault.yaml
         expressions: ignore  # explicitly do not evaluate expressions
                               # on load (this is the default)
+    - name: Load General vars
+      ansible.builtin.include_vars:
+        file: ../inventories/general_vars.yaml
   roles:
     - role: powerdns # noqa syntax-check[specific]
       become: true

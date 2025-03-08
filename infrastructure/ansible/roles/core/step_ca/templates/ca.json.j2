@@ -15,7 +15,7 @@
         "address": ":9000",
         "insecureAddress": "",
         "dnsNames": [
-                {{ tinyca.dns_domain | join(',\n')}}
+                {{ tinyca.dns_domain | wrap | join(',\n')}}
         ],
         "logger": {
                 "format": "text"

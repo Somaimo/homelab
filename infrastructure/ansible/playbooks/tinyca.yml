@@ -6,13 +6,17 @@
     - tinyca
     - core
   become: true
-  tasks:
+  pre_tasks:
     # Load sops encrypted vault variables
     - name: Load encrypted credentials
       community.sops.load_vars:
         file: ../inventories/general_vault.yaml
         expressions: ignore  # explicitly do not evaluate expressions
                               # on load (this is the default)
+    - name: Load General vars
+      ansible.builtin.include_vars:
+        file: ../inventories/general_vars.yaml
+
   roles:
     - role: core/noise_generator  # noqa syntax-check[specific] 
     - role: core/step_ca # noqa syntax-check[specific]
