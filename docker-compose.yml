@@ -1,0 +1,7 @@
+version: '3'
+services:
+  dev-container:
+    volumes:
+      - docker-code-volume:/workspace
+volumes:
+  docker-code-volume:
