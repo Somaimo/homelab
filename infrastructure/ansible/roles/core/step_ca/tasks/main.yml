@@ -3,17 +3,17 @@
 
 - name: Get ca installation information
   when: tinyca.step_ca_version == 'latest'
-  check_mode: no
+  check_mode: false
   block:
     - name: Get latest step-ca release information
       ansible.builtin.uri:
         url: https://api.github.com/repos/smallstep/certificates/releases/latest
         body_format: json
-        return_content: yes
+        return_content: true
       register: step_ca_latest_release
       delegate_to: localhost
-      become: no
-      run_once: yes
+      become: false
+      run_once: true
       retries: 3
       delay: 5
     - name: Set latest release version
@@ -33,3 +33,4 @@
 
 - name: Include run playbook
   ansible.builtin.include_tasks: "run.yml"
+

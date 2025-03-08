@@ -3,6 +3,7 @@ parseable: true
 exclude_paths:
   - cluster
   - '*.yaml'
+  - '*_secrets.sops*'
 
 skip_list:
   # see https://docs.ansible.com/ansible-lint/rules/default_rules.html for a list of all default rules

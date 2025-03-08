@@ -120,7 +120,7 @@
         detach: false
         user: 0
         privileged: true
-        command: 'step kms create --kty {{ tinyca.key_type }} {% if tinyca.key_curve is defined %} --crv {{ tinyca.key_curve }} {% endif %} --alg {{ tinyca.key_hash }} {% if tinyca.key_size != "" %}--size tinyca.key_size{% endif %} --json yubikey:slot-id=85?management-key={{ tinyca.yubi_piv_mgmt_key }}' 
+        command: 'step kms create --kty {{ tinyca.key_type }} {% if tinyca.key_curve is defined %} --crv {{ tinyca.key_curve }} {% endif %} --alg {{ tinyca.key_hash }} {% if tinyca.key_size != "" %}--size tinyca.key_size{% endif %} --json yubikey:slot-id=85?management-key={{ tinyca.yubi_piv_mgmt_key }}' # noqa 204
       register: ssh_second_ca
       retries: 5
       delay: 20
@@ -134,5 +134,5 @@
   ansible.builtin.template:
     src: ca.json.j2
     dest: /root/step/config/ca.json
-    
+    mode: '0644'
 

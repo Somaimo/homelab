@@ -4,7 +4,7 @@ metadata:
   name: argocd-rbac-cm
 data:
   policy.default: role:readonly
-  
+
   policy.csv: |
 
     p, role:user-update, accounts, update, *, allow
@@ -12,3 +12,4 @@ data:
     p, role:user-update, projects, update, argocd, allow
 
     g, alina, role:user-update
+
