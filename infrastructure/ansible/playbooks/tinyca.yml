@@ -14,5 +14,5 @@
         expressions: ignore  # explicitly do not evaluate expressions
                               # on load (this is the default)
   roles:
-    - role: noise_generator  # noqa syntax-check[specific] 
+    - role: core/noise_generator  # noqa syntax-check[specific] 
     - role: core/step_ca # noqa syntax-check[specific]

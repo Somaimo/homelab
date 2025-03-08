@@ -48,6 +48,16 @@ Including an example of how to use your role (for instance, with variables passe
       roles:
          - { role: madq.powerdns, powerdns.domain: abc.com, powerdns.version: 12.4, powerdns.dyndns.enabled: false, powerdns.webfrontend.enabled: false }
 
+Running
+----------------
+
+To run a playbook, simply execute the following commands:
+
+```bash
+eval $(pdm venv activate) # Activate venv - not strictly necessary but encouraged
+ansible-playbook -i #[Location of inventory.yml file] #[location of playbook yaml file]
+```
+
 License
 -------
 
