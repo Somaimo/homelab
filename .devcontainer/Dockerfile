@@ -1,5 +1,5 @@
 # Run from a standard debian image
-FROM mcr.microsoft.com/devcontainers/base:bookworm
+FROM mcr.microsoft.com/devcontainers/base:debian
 
 # Install OpenTofu
 RUN curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh
@@ -45,9 +45,13 @@ RUN pipx install pdm
 RUN echo "export SOPS_AGE_KEY_FILE='/workspace/secrets/sops/age-key.txt'" | tee -a ~/.bashrc
 
 RUN mkdir  ~/.ssh && echo "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIHxvwHvW/H1q0TKL43upNtFGzUof8nGTr737dKbecYNdAAAAD3NzaDptYWRxSG9tZUxhYg== marc@mantis-token2-halsband" | tee ~/.ssh/token2-halsband.pub
+
 # Set up direnv hook
 RUN echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
 RUN echo 'eval "$(direnv hook bash)"' >> ~/.bash_profile
+
+# Update git information
+RUN git config --global user.email "marc@polarsofa.ch" && git config --global user.name "Somaimo" && git config --global user.signingkey "/home/vscode/.ssh/token2-halsband-sk" && git config --global gpg.format ssh 
 
 # Add Bash completion for kubectl
 RUN echo 'source <(kubectl completion bash)' >>~/.bashrc
