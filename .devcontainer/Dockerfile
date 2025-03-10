@@ -50,6 +50,9 @@ RUN mkdir  ~/.ssh && echo "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG
 RUN echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
 RUN echo 'eval "$(direnv hook bash)"' >> ~/.bash_profile
 
+# Install talosctl
+RUN curl -sL https://talos.dev/install | sh
+
 # Update git information
 RUN git config --global user.email "marc@polarsofa.ch" && git config --global user.name "Somaimo" && git config --global user.signingkey "/home/vscode/.ssh/token2-halsband-sk" && git config --global gpg.format ssh 
 
