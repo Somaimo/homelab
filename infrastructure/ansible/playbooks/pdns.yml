@@ -5,7 +5,7 @@
   tags:
     - dns
     - core
-  tasks:
+  pre_tasks:
     # Load sops encrypted vault variables
     - name: Load encrypted credentials
       community.sops.load_vars:

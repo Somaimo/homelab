@@ -13,6 +13,7 @@ vault:
                 - ENC[AES256_GCM,data:HoZ4YEUANDq60RUoAvm5nA==,iv:CStb9DdWLmhYv0/rok+Chqm9MHo8BBGExeLyUSPMGhQ=,tag:Kh9EEOWzLVY1tIXBrlruIg==,type:str]
                 - ENC[AES256_GCM,data:RZod5LFpHmPgo2NmxZEpLQ==,iv:hWT0Z/6RINiLD5la+r5UikxK2nIsvX1OjI2h3vFPjB0=,tag:h9NYWt0UvYX6HCGb6DFnCg==,type:str]
                 - ENC[AES256_GCM,data:gVGNEvdZdpyGYPzTjBk5mQ==,iv:NKVW8MLgdxPMruPfRG6hQVaYZanqNP6jGiUc6JQ0+eA=,tag:UwvL4k1+1tZkfgznvEKxcw==,type:str]
+                - ENC[AES256_GCM,data:mjjh4Fak+5MBj68r/GEEJg==,iv:LouZWtIvOoPD2vyKLepU3JENVSbBerzbSJqDdn3qskw=,tag:svqeH0qOuHZ/S3KDxq2Y4Q==,type:str]
                 - ENC[AES256_GCM,data:XJm3jsbrrfjXVZq0dDtrWUjA8KtSFm+SPIoKKYgZNVFf44uNvNqU,iv:aW5f4yIWg52NdNXB/h6GWprVONPwohSiOI7nSmzYyos=,tag:JfbwwrS8V6V18V+0jbe0ow==,type:str]
         webfrontend:
             hostname: ENC[AES256_GCM,data:YvslvKYnK16DwF8YZ5j+,iv:YFgTVHABU/UTeS2cQ3LxjjBEc2vK2KPDu0bhoQ6TIlU=,tag:Bm5VfOEonu7esgtqSk0TCQ==,type:str]
@@ -51,8 +52,8 @@ sops:
             SGhxUFI1MDVNb0lxa2FMNVRQMFRQckkKWMJ+zmUlhznLGzFVRDRcDpXfiuPM6ium
             TPCiG547qsafg0YBYRgWM23bEFcd7RaUK7a/6tIn6kltnxNOGoTe5g==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-02-08T20:55:34Z"
-    mac: ENC[AES256_GCM,data:7yA1pO9XPKKP7W6r1id3glBs3thWkPL1w3cXnz8Fdv3JPlhdQ5ZhQz1YM9poT20/DBT2dMsTqH5JbIsWohPXMAKcSb1uvZaadhm5RJ5wNY/mc6WXxtEV8/24HiOt/qHGPATtfUeZylGPwgYHaS96GeF19yBIywirwIZ3HbzKojk=,iv:8FNQ62TFuRWU8rxEoI2DXOlsQCH+R+e6WAgGP7LDNtA=,tag:4e2nyTEX5hxA15O0qJw8Pw==,type:str]
+    lastmodified: "2025-08-03T21:13:12Z"
+    mac: ENC[AES256_GCM,data:Hl39aZPWk2JJbQfbA0wCcd08vNvVdjLlOJbfosyD79XWp0RGjjaMYon4YjI3tE5k5GPF4T2RrukX3Mf7F+YunXlve2U+sfgI2NfnW0cYeKi+ZOL7b7649Xysq7az/9wzKe+1xPeFdUbo4k0uY4x5+33UghjoVO0L9plV4qIKolQ=,iv:6QtoxsgaKQ6MGvFRGEDRDXMMP+3ppU5CIlwWp9OuchU=,tag:J3PcVKHSrJG/J6JWEm8CRA==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
     version: 3.9.0
